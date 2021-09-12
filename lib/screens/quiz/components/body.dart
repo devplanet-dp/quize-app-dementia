@@ -4,6 +4,7 @@ import 'package:quiz_app/constants.dart';
 import 'package:quiz_app/controllers/question_controller.dart';
 import 'package:quiz_app/models/Questions.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:quiz_app/screens/welcome/welcome_screen.dart';
 
 import 'progress_bar.dart';
 import 'question_card.dart';
@@ -19,7 +20,7 @@ class Body extends StatelessWidget {
     QuestionController _questionController = Get.put(QuestionController());
     return Stack(
       children: [
-        SvgPicture.asset("assets/icons/bg.svg", fit: BoxFit.fill),
+        AppBg(),
         SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,7 +30,7 @@ class Body extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                 child: ProgressBar(),
               ),
-              SizedBox(height: kDefaultPadding),
+              SizedBox(height: kDefaultPadding/2),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: kDefaultPadding),

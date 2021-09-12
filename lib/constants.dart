@@ -12,3 +12,5 @@ const kPrimaryGradient = LinearGradient(
 );
 
 const double kDefaultPadding = 20.0;
+const Widget kVerticalSpace = const SizedBox(height: 12,);
+

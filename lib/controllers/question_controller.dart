@@ -12,37 +12,41 @@ class QuestionController extends GetxController
 
   AnimationController _animationController;
   Animation _animation;
+
   // so that we can access our animation outside
   Animation get animation => this._animation;
 
   PageController _pageController;
+
   PageController get pageController => this._pageController;
 
-  List<Question> _questions = sample_data
-      .map(
-        (question) => Question(
-            id: question['id'],
-            question: question['question'],
-            options: question['options'],
-            answer: question['answer_index']),
-      )
-      .toList();
+  List<Question> _questions = sampleQuestions;
+
   List<Question> get questions => this._questions;
 
   bool _isAnswered = false;
+
   bool get isAnswered => this._isAnswered;
 
   int _correctAns;
+
   int get correctAns => this._correctAns;
 
   int _selectedAns;
+
+  String _submittedAns;
+
+  String get submittedAns => this._submittedAns;
+
   int get selectedAns => this._selectedAns;
 
   // for more about obs please check documentation
   RxInt _questionNumber = 1.obs;
+
   RxInt get questionNumber => this._questionNumber;
 
   int _numOfCorrectAns = 0;
+
   int get numOfCorrectAns => this._numOfCorrectAns;
 
   // called immediately after the widget is allocated memory
@@ -73,20 +77,36 @@ class QuestionController extends GetxController
     _pageController.dispose();
   }
 
-  void checkAns(Question question, int selectedIndex) {
+  void checkAns({Question question, int selectedIndex, String answer}) {
     // because once user press any option then it will run
     _isAnswered = true;
-    _correctAns = question.answer;
     _selectedAns = selectedIndex;
 
-    if (_correctAns == _selectedAns) _numOfCorrectAns++;
+
+    switch (question.type) {
+      case QuestionType.Choice:
+        _correctAns = question.answer;
+        if (_correctAns == _selectedAns){
+          _numOfCorrectAns++;
+        }
+        break;
+      case QuestionType.Text:
+        _submittedAns = answer;
+        if ((question.answer as String).toLowerCase() == _submittedAns){
+          _numOfCorrectAns++;
+        }
+        break;
+      case QuestionType.CheckBox:
+        // TODO: Handle this case.
+        break;
+    }
 
     // It will stop the counter
     _animationController.stop();
     update();
 
     // Once user select an ans after 3s it will go to the next qn
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(Duration(seconds: 1), () {
       nextQuestion();
     });
   }
