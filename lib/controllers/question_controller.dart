@@ -82,22 +82,31 @@ class QuestionController extends GetxController
     _isAnswered = true;
     _selectedAns = selectedIndex;
 
-
     switch (question.type) {
       case QuestionType.Choice:
-        _correctAns = question.answer;
-        if (_correctAns == _selectedAns){
+        _correctAns =
+            question.options.length != 4 ? selectedIndex : question.answer;
+        if (_correctAns == _selectedAns) {
           _numOfCorrectAns++;
         }
         break;
       case QuestionType.Text:
         _submittedAns = answer;
-        if ((question.answer as String).toLowerCase() == _submittedAns){
+        if ((question.answer as String).toLowerCase() == _submittedAns) {
           _numOfCorrectAns++;
         }
         break;
       case QuestionType.CheckBox:
-        // TODO: Handle this case.
+        _submittedAns = answer;
+        if ((question.answer as String) == _submittedAns) {
+          _numOfCorrectAns++;
+        }
+        break;
+      case QuestionType.Remember:
+        _submittedAns = answer;
+        if ((question.answer as String).toLowerCase() == _submittedAns.toLowerCase()) {
+          _numOfCorrectAns++;
+        }
         break;
     }
 

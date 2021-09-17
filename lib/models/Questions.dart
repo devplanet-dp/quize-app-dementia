@@ -4,6 +4,7 @@ enum QuestionType {
   Choice,
   Text,
   CheckBox,
+  Remember,
 }
 
 class Question {
@@ -29,6 +30,60 @@ class Question {
 }
 
 List<Question> sampleQuestions = [
+  Question(
+      type: QuestionType.Text,
+      isNumber: true,
+      id: 1,
+      question: 'ඔබගේ වයස සදහන් කරන්න ?',
+      answer: '24',
+      options: ['චීනය', 'ඉන්දියාව', 'එංගලන්තය', 'ශ්‍රී ලංකාව']),
+  Question(
+      type: QuestionType.Choice,
+      isNumber: true,
+      id: 1,
+      question: 'ස්ත්රී පුරුෂ භාවය',
+      answer: -1,
+      options: ['පිරිමි', 'ගැහැණු']),
+  Question(
+      type: QuestionType.Choice,
+      isNumber: true,
+      id: 1,
+      question: 'ඔබේ අධ්‍යාපන මට්ටම කුමක්ද?',
+      answer: 1,
+      options: [
+        'ප්‍රාථමික අධයාපනය හදරා ඇත',
+        'අපොස සාමන්ය පෙල දක්වා හදරා ඇත',
+        'අපොස උසස් පෙල දක්වා හදරා ඇත',
+        'උපාධිය හෝ ඊට සමාන මට්ටම අධයාපනය හදරා ඇත',
+        'ශාස්ත්‍රපති හෝ සමාන මට්ටම හෝ ඊට ඉහළ අධයාපනය හදරා ඇත'
+      ]),
+  Question(
+      type: QuestionType.Remember,
+      isNumber: true,
+      id: 1,
+      question: 'කරුණාකර පහත වචන මතක තබා ගන්න',
+      answer: 'saman,kumara,42,kurunegala,bottle',
+      options: ['Saman', 'Kandy', '42']),
+  Question(
+      type: QuestionType.CheckBox,
+      id: 1,
+      question: 'අවුරුද්දේ මාස ප්‍රතිලෝම අනුපිළිවෙලට තෝරන්න?',
+      answer:
+          'December,November,October,September,August,July,June,May,April,March,February,January',
+      options: [
+        'April',
+        'January',
+        'May',
+        'September',
+        'December',
+        'February',
+        'June',
+        'August',
+        'October',
+        'March',
+        'July',
+        'November'
+      ]),
   Question(
       type: QuestionType.Choice,
       id: 1,
