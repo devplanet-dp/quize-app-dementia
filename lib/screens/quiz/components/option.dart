@@ -49,11 +49,13 @@ class Option extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AutoSizeText(
-                    "${index + 1}. $text",
-                    maxLines: 3,
-                    style: TextStyle(
-                      color: getTheRightColor(),
+                  Flexible(
+                    child: AutoSizeText(
+                      "${index + 1}. $text",
+                      maxLines: 3,
+                      style: TextStyle(
+                        color: getTheRightColor(),
+                      ),
                     ),
                   ),
                   Container(

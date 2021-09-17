@@ -31,15 +31,13 @@ class QuestionCard extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            question.type != QuestionType.Remember
-                ? Text(
-                    question.question,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6
-                        .copyWith(color: kBlackColor),
-                  )
-                : const SizedBox.shrink(),
+            Text(
+              question.question,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6
+                  .copyWith(color: kBlackColor),
+            ),
             SizedBox(height: kDefaultPadding / 2),
             question.assetPath != null
                 ? SizedBox(
@@ -84,6 +82,11 @@ class QuestionCard extends StatelessWidget {
           question: question,
         );
         break;
+      case QuestionType.RemindInput:
+        return _RemindEnterQuestion(
+          question: question,
+        );
+        break;
       default:
         return SizedBox.shrink();
     }
@@ -100,65 +103,57 @@ class _RememberQuestion extends StatefulWidget {
 }
 
 class __RememberQuestionState extends State<_RememberQuestion> {
+  @override
+  Widget build(BuildContext context) {
+    return _buildWords();
+  }
+
+  Widget _buildWords() {
+    return GetBuilder<QuestionController>(
+        init: QuestionController(),
+        builder: (qnController) {
+          return Column(
+            children: [
+              Wrap(
+                  spacing: 4,
+                  runSpacing: 2,
+                  children: List.generate(
+                      widget.question.options.length,
+                      (index) => Chip(
+                            backgroundColor: kGrayColor,
+                            label: Text(
+                              widget.question.options[index],
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 18),
+                            ),
+                          ))),
+              kVerticalSpace,
+              ActionChip(
+                  backgroundColor: kGreenColor,
+                  label: Text('ඊළඟ',
+                      style: TextStyle(color: Colors.black, fontSize: 18)),
+                  onPressed: () {
+                    qnController.checkAns(
+                        question: widget.question, answer: '');
+                  })
+            ],
+          );
+        });
+  }
+}
+
+class _RemindEnterQuestion extends StatelessWidget {
+  final Question question;
+
+  _RemindEnterQuestion({Key key, this.question}) : super(key: key);
   final _formKey = GlobalKey<FormState>();
 
   final _first = TextEditingController();
   final _second = TextEditingController();
   final _third = TextEditingController();
-  final _pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: context.height / 2,
-      child: PageView(
-        // Block swipe to next qn
-        physics: NeverScrollableScrollPhysics(),
-        controller: _pageController,
-        children: [
-          _buildWords(),
-          _buildInputs(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildWords() {
-    return Column(
-      children: [
-        Text(
-          'කරුණාකර පහත වචන මතක තබා ගන්න',
-          style: Theme.of(context)
-              .textTheme
-              .headline6
-              .copyWith(color: kBlackColor),
-        ),
-        kVerticalSpace,
-        Wrap(
-            spacing: 4,
-            runSpacing: 2,
-            children: List.generate(
-                widget.question.options.length,
-                (index) => Chip(
-                      backgroundColor: kGrayColor,
-                      label: Text(
-                        widget.question.options[index],
-                        style: TextStyle(color: Colors.black, fontSize: 18),
-                      ),
-                    ))),
-        kVerticalSpace,
-        ActionChip(
-            backgroundColor: kGreenColor,
-            label: Text('ඊළඟ',
-                style: TextStyle(color: Colors.black, fontSize: 18)),
-            onPressed: () => _pageController.nextPage(
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeIn))
-      ],
-    );
-  }
-
-  Widget _buildInputs() {
     return GetBuilder<QuestionController>(
         init: QuestionController(),
         builder: (qnController) {
@@ -166,13 +161,6 @@ class __RememberQuestionState extends State<_RememberQuestion> {
             key: _formKey,
             child: Column(
               children: [
-                Text(
-                  'ඔබට මතක තබා ගැනීමට ඉල්ලා සිටි වචන ඇතුළත් කරන්න',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6
-                      .copyWith(color: kBlackColor),
-                ),
                 kVerticalSpace,
                 _buildTextField(_first, qnController, 'පළමු වචනය ඇතුළත් කරන්න'),
                 kVerticalSpace,
@@ -192,8 +180,7 @@ class __RememberQuestionState extends State<_RememberQuestion> {
                     if (_formKey.currentState.validate()) {
                       String ans =
                           _first.text + ',' + _second.text + ',' + _third.text;
-                      qnController.checkAns(
-                          question: widget.question, answer: ans);
+                      qnController.checkAns(question: question, answer: ans);
                     }
                   },
                 )
@@ -212,10 +199,7 @@ class __RememberQuestionState extends State<_RememberQuestion> {
         textCapitalization: TextCapitalization.characters,
         keyboardType: null,
         decoration: InputDecoration(
-          hintText: hint,
-          filled: true,
-          fillColor: kGrayColor
-        ),
+            hintText: hint, filled: true, fillColor: kGrayColor),
         validator: (value) {
           if (value.isNotEmpty) {
             return null;

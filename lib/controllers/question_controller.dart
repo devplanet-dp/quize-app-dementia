@@ -91,7 +91,8 @@ class QuestionController extends GetxController
         }
         break;
       case QuestionType.Text:
-        _submittedAns = answer;
+        _submittedAns = question.allTrue ? '' : answer;
+
         if ((question.answer as String).toLowerCase() == _submittedAns) {
           _numOfCorrectAns++;
         }
@@ -104,7 +105,15 @@ class QuestionController extends GetxController
         break;
       case QuestionType.Remember:
         _submittedAns = answer;
-        if ((question.answer as String).toLowerCase() == _submittedAns.toLowerCase()) {
+        if ((question.answer as String).toLowerCase() ==
+            _submittedAns.toLowerCase()) {
+          _numOfCorrectAns++;
+        }
+        break;
+      case QuestionType.RemindInput:
+        _submittedAns = answer;
+        if ((question.answer as String).toLowerCase() ==
+            _submittedAns.toLowerCase()) {
           _numOfCorrectAns++;
         }
         break;
@@ -120,7 +129,7 @@ class QuestionController extends GetxController
     });
   }
 
-  void nextQuestion() {
+  void nextQuestion() async{
     if (_questionNumber.value != _questions.length) {
       _isAnswered = false;
       _pageController.nextPage(
@@ -134,7 +143,7 @@ class QuestionController extends GetxController
       _animationController.forward().whenComplete(nextQuestion);
     } else {
       // Get package provide us simple way to naviigate another page
-      Get.to(ScoreScreen());
+      Get.off(ScoreScreen());
     }
   }
 

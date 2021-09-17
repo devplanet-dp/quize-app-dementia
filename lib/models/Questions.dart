@@ -5,6 +5,7 @@ enum QuestionType {
   Text,
   CheckBox,
   Remember,
+  RemindInput,
 }
 
 class Question {
@@ -16,6 +17,7 @@ class Question {
   final String assetPath;
   final bool isNumber;
   final int maxLength;
+  final bool allTrue;
 
   Question({
     this.type,
@@ -25,6 +27,7 @@ class Question {
     this.options,
     this.assetPath,
     this.isNumber = false,
+    this.allTrue = false,
     this.maxLength = 5,
   });
 }
@@ -35,8 +38,8 @@ List<Question> sampleQuestions = [
       isNumber: true,
       id: 1,
       question: 'ඔබගේ වයස සදහන් කරන්න ?',
-      answer: '24',
-      options: ['චීනය', 'ඉන්දියාව', 'එංගලන්තය', 'ශ්‍රී ලංකාව']),
+      allTrue: true,
+      answer: ''),
   Question(
       type: QuestionType.Choice,
       isNumber: true,
@@ -97,6 +100,14 @@ List<Question> sampleQuestions = [
       answer: '10987654321',
       maxLength: 11,
       isNumber: true),
+  Question(
+    type: QuestionType.RemindInput,
+    isNumber: true,
+    id: 1,
+    question: 'ඔබට මතක තබා ගැනීමට ඉල්ලා සිටි වචන ඇතුළත් කරන්න',
+    answer: 'saman,kumara,42,kurunegala,bottle',
+    options: ['Saman', 'Kandy', '42'],
+  ),
   Question(
     type: QuestionType.Text,
     id: 1,

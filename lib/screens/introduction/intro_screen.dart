@@ -73,7 +73,7 @@ class _IntroScreenState extends State<IntroScreen> {
       slides: slides,
       hideStatusBar: false,
       onDonePress: () {
-        Get.to(SignInScreen());
+        Get.off(SignInScreen());
       },
     );
   }

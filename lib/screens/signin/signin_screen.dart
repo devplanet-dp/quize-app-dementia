@@ -21,7 +21,7 @@ class SignInScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
-        onTap: ()=>DeviceUtils.hideKeyboard(context),
+        onTap: () => DeviceUtils.hideKeyboard(context),
         child: Stack(
           children: [
             AppBg(),
@@ -32,8 +32,8 @@ class SignInScreen extends StatelessWidget {
                   child: SizedBox(
                     height: context.mediaQuerySize.height,
                     child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: kDefaultPadding),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -43,8 +43,12 @@ class SignInScreen extends StatelessWidget {
                           Text(
                             "පුරන්න",
                             textAlign: TextAlign.start,
-                            style: Theme.of(context).textTheme.headline4.copyWith(
-                                color: Colors.white, fontWeight: FontWeight.bold),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline4
+                                .copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                           ),
                           kVerticalSpace,
                           Text(
@@ -65,7 +69,7 @@ class SignInScreen extends StatelessWidget {
                           AppButton(
                             onTap: () {
                               if (formKey.currentState.validate()) {
-                                Get.to(QuizScreen());
+                                Get.off(QuizScreen());
                               }
                             },
                             text: 'පුරන්න',
